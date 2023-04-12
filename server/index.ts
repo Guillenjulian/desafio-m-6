@@ -111,7 +111,7 @@ app.post("/rooms", (req, res) => {
             roomCol
               .doc(roomId.toString())
               .set({
-                rtdrRoomID: roomLongId,
+                rtdrRoomId: roomLongId,
               })
               .then(() => {
                 res.json({
@@ -127,4 +127,44 @@ app.post("/rooms", (req, res) => {
     });
 });
 
-//
+//Agregar nuevo usuario a la room que ya existe
+
+app.post("/addplayer", (req, res) => {
+  console.log("desbuelve la room");
+  const { name } = req.body;
+  const { rtdRoomId } = req.body;
+  const { userId } = req.body;
+  console.log(name, "es el nombre");
+  console.log(rtdRoomId, "es el rtdbRoomId");
+  console.log(userId, "es el user id");
+
+  userCol
+    .doc(userId.toString())
+    .get()
+    .then((doc) => {
+      console.log("si existe el user id");
+
+      if (doc.exists) {
+        const roomRef = rtdb.ref("rooms/" + rtdRoomId);
+        roomRef
+          .update({
+            [userId]: {
+              userId: userId,
+              name: name,
+              choice: "",
+              online: true,
+              start: false,
+            },
+          })
+          .then(() => {
+            res.json({
+              message: "player add in RTDB",
+            });
+          });
+      } else {
+        res.status(401).json({
+          message: "Username does not exist",
+        });
+      }
+    });
+});

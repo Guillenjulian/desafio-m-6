@@ -10,18 +10,25 @@ class Form extends HTMLElement {
   connctedCallback() {
     state.suscribe(() => {
       const currenstate = state.getState();
-      currenstate.player;
-      currenstate.cpu;
+      currenstate.userPlay;
+      //  currenstate.cpu;
       currenstate.userId;
       currenstate.roomId;
     });
     const form = this.querySelector(".form");
-    console.log(form, "este es el form");
+    //console.log(form, "este es el form");
     form?.addEventListener("submit", (e) => {
       e.preventDefault();
       const target = e.target as any;
       const name = target.name.value;
-      state.setNema(name);
+      console.log(name, "nombre desde el componente");
+
+      const userId = target.sala.value;
+      console.log(userId, "user id desde el componente");
+
+      // state.setNema(name);
+
+      // state.setUserId(userId);
     });
   }
   render() {
@@ -43,7 +50,7 @@ class Form extends HTMLElement {
         <label class ="form-label">  Salas </label>  
       </div>
         <select class ="selectroom form-input" name ="selectroom" id :"selectroom">
-          <option class ="newroom" value = "newroom">Nueva Sala</option>
+          <option class ="newroom" value = "userId">Nueva Sala</option>
           <option class ="existingroom" value = "existingroom">Sala existente</option>
         </select>
       <div class ="select-sala">

@@ -3,17 +3,17 @@ import { dataBase } from "./database";
 type jugada = "piedra" | "papel" | "tijera";
 const state = {
   data: {
-    currentGame: {
-      cpuPlay: "",
-      userPlay: "",
-    },
-    playHistory: {
-      player: 0,
-      cpu: 0,
-      result: "",
-      userId: "",
-      roomId: "",
-    },
+    cpuPlay: "",
+    userPlay: "",
+
+    name: "",
+    result: "",
+    userId: "",
+    roomId: "",
+  },
+  playHistory: {
+    player: 0,
+    cpu: 0,
   },
   listeners: [],
 
@@ -120,8 +120,15 @@ const state = {
   },
   setNema(name: string) {
     const currentState = this.getState();
-    currentState.player = name;
-    console.log(currentState.player);
+    currentState.name = name;
+    console.log(currentState.name, "este es el user player");
+    this.setState();
+  },
+  setUserId(userId: string) {
+    const currentState = this.getState();
+    currentState.userId = userId;
+    console.log(userId, "este es el userId");
+
     this.setState();
   },
 };
