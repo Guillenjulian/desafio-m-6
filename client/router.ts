@@ -5,6 +5,7 @@ import "./pages/reglas";
 import "./pages/play";
 import "./pages/result";
 import "./pages/select-sala";
+//import "./pages/sala-de-espera";
 
 import "./componet/button/index";
 import "./componet/input/index";
@@ -29,6 +30,7 @@ const routes = [
   { path: "/select", component: "select-page" },
   { path: "/play", component: "play-page" },
   { path: "/result", component: "result-page" },
+  //{ path: "/salaDeEspera", component: "select-WaitingRoom" },
 ];
 
 router.setRoutes(routes);

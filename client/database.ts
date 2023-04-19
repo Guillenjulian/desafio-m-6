@@ -1,17 +1,20 @@
-import firebase from "firebase-admin";
+//import { database } from "firebase-admin";
+// import { initializeApp } from "firebase/app";
+import firebase from "firebase";
 
 const variablesDeEntorno: any = process.env;
 //console.log(variablesDeEntorno.API_KEY, "es la apy key");
 
 const firebaseConfig = {
-  apikey: "f6F2zLTeQ2a1rczFCB1P4I14pmKpWiGuG5CRWdTw",
-  authDomain: "ppt-mod-6-desafio-default-rtdb.firebaseio.com",
-  databaseURL: "https://ppt-mod-6-desafio-default-rtdb.firebaseio.com/",
+  apikey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
 };
 
 const app = firebase.initializeApp(firebaseConfig);
 const dataBase = firebase.database();
 
-console.log(dataBase);
+//console.log(dataBase);
+//console.log(app);
 
-export { dataBase };
+export { app, dataBase };

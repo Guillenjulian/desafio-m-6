@@ -5,16 +5,17 @@ class Input extends HTMLElement {
   }
   render() {
     const div = document.createElement("div");
+    div.className = "contenedor";
     const style = document.createElement("style");
     const value = this.getAttribute("value") || "Click me";
 
     div.innerHTML = `
-        <div class="contenedor">
+       
            
               <input type="text" class="input" placeholder="${value}" value="${value}" >
   
               
-              </div>`;
+              `;
     style.innerHTML = `
               
               .conteiner{
