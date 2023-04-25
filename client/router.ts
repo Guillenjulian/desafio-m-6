@@ -19,6 +19,7 @@ import "./componet/contador/index";
 import "./componet/card-result";
 import "./componet/text-rules/index";
 import "./componet/text-result";
+import "./componet/headre-rules";
 
 const router = new Router(document.querySelector(".root"));
 //console.log(router);

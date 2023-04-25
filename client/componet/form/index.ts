@@ -15,37 +15,73 @@ class Form extends HTMLElement {
     form?.addEventListener("submit", (e) => {
       e.preventDefault();
       const target = e.target as any;
+
       const name = target.name.value as string;
-      const userId = target.sala.value as string;
-      // console.log(name, "nombre desde el componente");
-      // console.log(userId, "userId desde el componente");
-
-      state.setName(name);
-      // state.playerGame(name)?.then(() => {
-      //   console.log(state.getState(), "este es el user player");
-      //});
-
-      if (userId === "") {
+      const contrincanteName = target.name.value as string;
+      const roomIdEl = target.sala.value as string;
+      if (roomIdEl === "") {
+        state.setName(name);
         state.playerGame(name)?.then(() => {
-          console.log(state.getState().userId, "este es el user player");
-          state.askNewRoom(name, state.getState().userId);
+          //console.log(state.getState().userId, "este es el user player");
+          let userId = state.getState().userId;
+          // console.log(userId, name, "nombre desde el componente");
+          state.askNewRoom(name, userId)?.then(() => {
+            let roomId = state.getState().roomId;
+            state.accesToRoom(roomId, userId)?.then(() => {
+              //     console.log("esta es la data");
+              state.listenRoom();
+              //  Router.go("/reglas");
+            });
+          });
         });
-        //  Router.go("/salaDeEspera");
-      } else {
-        state.signIn(name);
+      } else if (roomIdEl !== "") {
+        // console.log(contrincanteName, "contrincanteName");
+
+        state.setNameContrincante(contrincanteName);
+        state.twoPlayerGame(name)?.then(() => {
+          state.getState().roomId = roomIdEl;
+          //  console.log(state.getState(), "este es el user player 5");
+
+          state
+            .accesToRoom(
+              state.getState().roomId,
+              state.getState().contrincanteId
+            )
+            ?.then(() => {
+              //  console.log(
+              //   state.getState().rtdbRoomId,
+              //   "este es el user player 5"
+              // );
+              state
+                .askExistingRoom(
+                  state.getState().contrincanteName,
+                  state.getState().contrincanteId,
+                  state.getState().rtdbRoomId
+                )
+
+                ?.then(() => {
+                  Router.go("/reglas");
+                });
+            })
+            .catch(() => {
+              alert("No se pudo acceder a la sala");
+            });
+        });
+      } else if (name == "") {
+        alert("No se pudo acceder a la sala");
       }
     });
     const selectroom = this.querySelector(".selectroom") as any;
     const existingRoom = form?.querySelector(".select-sala") as HTMLElement;
 
     selectroom?.addEventListener("change", (e) => {
-      console.log(selectroom, "selectroom");
+      //  console.log(selectroom, "selectroom");
       if (selectroom.value == "existingroom") {
         existingRoom.style.display = "inline";
-        console.log(existingRoom, "userId", existingRoom);
+        // console.log(existingRoom, "userId", existingRoom);
       } else {
         existingRoom.style.display = "none";
-        console.log(existingRoom, "existingRoom");
+        //console.log(existingRoom, "existingRoom");
       }
     });
   }

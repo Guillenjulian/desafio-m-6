@@ -14,9 +14,6 @@ app.use(cors());
 ///manejar las rutas q no estan declaradas
 app.use(express.static("dist"));
 const ROOT_PATH = __dirname.replace("server/index", "");
-app.get("*", (req, res) => {
-  res.sendFile(ROOT_PATH + "dist/index.html");
-});
 
 //expongo el puerto
 app.listen(port, () => {
@@ -27,21 +24,11 @@ const userCol = db.collection("users");
 const roomCol = db.collection("rooms");
 const gamesCol = db.collection("games");
 
-app.get("/users", (req, res) => {
-  const id = uuidv4().substring(0, 6);
-  console.log(
-    res.json({
-      message: "todo ok",
-      id: id,
-    })
-  );
-});
-
 // Este endpoint autentifica el usuario
 app.post("/signup", function (req, res) {
   const name = req.body.name;
-  console.log("valor reques nombre", name);
-  console.log("valor reques ", name);
+  // console.log("valor reques nombre", name);
+  // console.log("valor reques ", name);
 
   userCol
     .where("name", "==", name)
@@ -62,6 +49,31 @@ app.post("/signup", function (req, res) {
     });
 });
 
+app.post("/signupcontrincante", function (req, res) {
+  const contrincanteName = req.body.contrincanteName;
+  // console.log("valor reques nombre", name);
+  // console.log("valor reques ", name);
+
+  userCol
+    .where("contrincanteName", "==", contrincanteName)
+    .get()
+    .then((searchResponse) => {
+      if (searchResponse.empty) {
+        userCol
+          .add({ contrincanteName: contrincanteName })
+          .then(function (newUserRef) {
+            res.json({
+              contrincanteId: newUserRef.id,
+              new: true,
+            });
+          });
+      } else {
+        res.status(401).json({
+          message: " existis",
+        });
+      }
+    });
+});
 //Este endpoint  genera  e id que va  aser usado en el userId para genear las salas
 
 app.post("/auth", (req, res) => {
@@ -112,7 +124,7 @@ app.post("/rooms", (req, res) => {
             roomCol
               .doc(roomId.toString())
               .set({
-                rtdrRoomId: roomLongId,
+                rtdbRoomId: roomLongId,
               })
               .then(() => {
                 res.json({
@@ -131,27 +143,27 @@ app.post("/rooms", (req, res) => {
 //Agregar nuevo usuario a la room que ya existe
 
 app.post("/addplayer", (req, res) => {
-  console.log("desbuelve la room");
-  const { name } = req.body;
-  const { rtdRoomId } = req.body;
-  const { userId } = req.body;
-  // console.log(name, "es el nombre");
-  // console.log(rtdRoomId, "es el rtdbRoomId");
-  // console.log(userId, "es el user id");
+  const { contrincanteName } = req.body;
+
+  const { contrincanteId } = req.body;
+  const { rtdbRoomId } = req.body;
+  console.log(contrincanteId, "este es el contrincante id");
+  console.log(rtdbRoomId, "este es el rtdb room id");
+  console.log(contrincanteName, "este es el contrincante name");
 
   userCol
-    .doc(userId.toString())
+    .doc(contrincanteId.toString())
     .get()
     .then((doc) => {
-      console.log("si existe el user id");
+      // console.log("si existe el user id");
+      //   console.log(doc.exists);
 
       if (doc.exists) {
-        const roomRef = rtdb.ref("rooms/" + rtdRoomId);
+        const roomRef = rtdb.ref("rooms/" + rtdbRoomId);
         roomRef
           .update({
-            [userId]: {
-              userId: userId,
-              name: name,
+            [contrincanteId]: {
+              contrincanteName: contrincanteName,
               choice: "",
               online: true,
               start: false,
@@ -175,7 +187,7 @@ app.post("/addplayer", (req, res) => {
 app.post("/addgames", (req, res) => {
   const userIdOne = req.body.userIdOne;
   const userIdTwo = req.body.userIdTwo;
-  console.log("reques a addgames");
+  // console.log("reques a addgames");
 
   gamesCol
     .where("userIdOne", "==", userIdOne)
@@ -300,13 +312,13 @@ app.get("/rooms/:roomId", (req, res) => {
 
   const { userId } = req.query;
   const { roomId } = req.params;
-  console.log(userId, "es el user id");
+  console.log({ userId }, "es el user id");
   console.log({ roomId }, "es el room id");
 
   userCol
     .doc(userId.toString())
     .get()
-    .then((doc) => {
+    .then(function (doc) {
       if (doc.exists) {
         const roomRef = rtdb.ref("rooms/" + roomId);
         roomRef.get().then((doc) => {
@@ -316,9 +328,9 @@ app.get("/rooms/:roomId", (req, res) => {
               .get()
               .then((doc) => {
                 const data = doc.data();
-                res.json({
-                  data,
-                });
+                console.log("data", data);
+
+                res.json(data);
               });
           } else {
             res.status(401).json({
@@ -329,10 +341,7 @@ app.get("/rooms/:roomId", (req, res) => {
       }
     });
 });
-//console.log("var ento", process.env);
-// app.get("/rooms/:roomId", (req, res) => {
-//   //console.log("desbuelve la room");
-//   const { userid } = req.query;
-//   console.log({ userid }, "es el room id");
-//   res.json(userid);
-// });
+// crear metodo para que me genere un  usuario en contrincante y me de el id
+app.get("*", (req, res) => {
+  res.sendFile(ROOT_PATH + "dist/index.html");
+});
