@@ -10,6 +10,7 @@ class Form extends HTMLElement {
   connectedCallBack() {
     state.suscribe(() => {
       const currentState = state.getState();
+      //console.log(currentState, "currentState");
     });
     const form = this.querySelector(".form");
     form?.addEventListener("submit", (e) => {
@@ -21,16 +22,17 @@ class Form extends HTMLElement {
       const roomIdEl = target.sala.value as string;
       if (roomIdEl === "") {
         state.setName(name);
+
         state.playerGame(name)?.then(() => {
-          //console.log(state.getState().userId, "este es el user player");
           let userId = state.getState().userId;
-          // console.log(userId, name, "nombre desde el componente");
+          //    console.log(userId, "userId");
+          state.getState().userId;
           state.askNewRoom(name, userId)?.then(() => {
             let roomId = state.getState().roomId;
             state.accesToRoom(roomId, userId)?.then(() => {
-              //     console.log("esta es la data");
+              //  console.log("esta es la data", state.getState().rtdbRoomId);
               state.listenRoom();
-              //  Router.go("/reglas");
+              Router.go("/reglas");
             });
           });
         });
@@ -60,6 +62,8 @@ class Form extends HTMLElement {
                 )
 
                 ?.then(() => {
+                  state.listenRoom();
+
                   Router.go("/reglas");
                 });
             })

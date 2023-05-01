@@ -47,10 +47,10 @@ export class Result extends HTMLElement {
       // console.log(boton1);
 
       boton?.addEventListener("click", () => {
-        Router.go("/play");
+        Router.go("/reglas");
       });
       boton1?.addEventListener("click", () => {
-        Router.go("/reglas");
+        Router.go("/");
       });
     }
     // const startEl = div?.querySelector("my-star");

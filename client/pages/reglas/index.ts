@@ -13,8 +13,9 @@ export class Reglas extends HTMLElement {
     div.className = "contenedor_reglas";
     div.innerHTML = `
 
-    <my-headers ></my-headers>
+    <my-headers class="header" ></my-headers>
     <my-rules></my-rules>
+    <my-loading class ="loading"></my-loading>
     <my-button class = "boton" value ="Jugar"></my-button>
     <div class = "manos">
     <mano-papel  class = "mano"></mano-papel>
@@ -33,8 +34,17 @@ export class Reglas extends HTMLElement {
       margin:25px ;
       gap: 20px;
     }
+    .contenedor_reglas .header{
+      align-self: flex-end;
+      margin-right: 45px;
+     
+    }
     .boton{
+      display: none;
     
+    }
+    .loading{
+      display: none;
     }
 
     @media (max-width: 768px){
@@ -64,21 +74,33 @@ export class Reglas extends HTMLElement {
 
     function insertButton() {
       state.suscribe(() => {
-        const currenstate = state.getState();
-        console.log(currenstate);
+        //   console.log("estado", state.getState());
+        const currentState = state.getState();
+        const boton = div.querySelector(".boton") as HTMLElement;
+        const loadingBar = div.querySelector(".loading") as HTMLElement;
+        if (currentState.fromServer.length === 2) {
+          loadingBar.style.display = "none";
+          boton.style.display = "inline";
+          console.log(" entro");
+        } else {
+          boton.style.display = "none";
+          loadingBar.style.display = "inline";
+          setTimeout(() => {
+            Router.go("/");
+          }, 60000);
+          console.log("no entro");
+        }
       });
-      console.log(state.getState(), "state");
-      console.log(state.listenRoom(), "listenRoom");
     }
     function handleClick() {
       const boton = div.querySelector(".boton");
       boton?.addEventListener("click", () => {
-        Router.go("/play");
+        state.stateStartInTrue();
       });
     }
 
     div.appendChild(style);
-    //  insertButton();
+    insertButton();
     handleClick();
     this.shadowRoot.appendChild(div);
   }

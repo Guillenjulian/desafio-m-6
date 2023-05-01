@@ -10,6 +10,7 @@ import "./pages/select-sala";
 import "./componet/button/index";
 import "./componet/input/index";
 import "./componet/form/index";
+import "./componet/loading/index";
 
 import "./componet/text-init/index";
 import "./componet/mano-papel/index";

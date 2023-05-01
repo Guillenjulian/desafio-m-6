@@ -145,11 +145,11 @@ export class Play extends HTMLElement {
       manoPiedraEl.style.opacity = "0.4";
       manoPapelEl.style.opacity = "0.4";
       setTimeout(() => {
-        if (state.data.currentGame.cpuPlay == "tijera") {
+        if (state.data.contrincanteChoice == "tijera") {
           pcTijeraEl.style.display = "flex";
-        } else if (state.data.currentGame.cpuPlay == "piedra") {
+        } else if (state.data.contrincanteChoice == "piedra") {
           pcPiedraEl.style.display = "flex";
-        } else if (state.data.currentGame.cpuPlay == "papel") {
+        } else if (state.data.contrincanteChoice == "papel") {
           pcPapelEl.style.display = "flex";
         }
         contadorComp.style.display = "none";
@@ -158,11 +158,11 @@ export class Play extends HTMLElement {
 
         manoTijeraElImg.style.height = "280px";
         manoTijeraElImg.style.width = "100px";
-      }, 1);
+      }, 3000);
       clearInterval(interavalidId);
       setTimeout(() => {
-        Router.go("/result");
-      }, 2500);
+        // Router.go("/result");
+      }, 4500);
 
       manoTijeraElImg.removeEventListener("click", removetijerasclick);
       manoTijeraEl.style.cursor = "default";
@@ -174,11 +174,16 @@ export class Play extends HTMLElement {
       manoPapelEl.style.cursor = "default";
       manoPapelEl.style.transform = "unset";
 
-      manoTijeraEl.removeEventListener("click", removetijerasclick);
+      manoTijeraEl.removeEventListener(
+        "click",
+
+        removetijerasclick
+      );
     };
     manoTijeraElImg.addEventListener("click", removetijerasclick);
 
     const manoPapelEl = div.querySelector(".mano-papel") as any;
+    //console.log(manoPapelEl, "manoPapelEl");
     const manoPapelElImg = manoPapelEl.querySelector(".paper-img") as any;
     manoPapelElImg.style.height = "230px";
     manoPapelElImg.style.width = "75px";
@@ -194,11 +199,11 @@ export class Play extends HTMLElement {
       manoTijeraEl.style.opacity = "0.4";
 
       setTimeout(() => {
-        if (state.data.currentGame.cpuPlay == "tijera") {
+        if (state.data.choices == "tijera") {
           pcTijeraEl.style.display = "flex";
-        } else if (state.data.currentGame.cpuPlay == "piedra") {
+        } else if (state.data.contrincanteChoice == "piedra") {
           pcPiedraEl.style.display = "flex";
-        } else if (state.data.currentGame.cpuPlay == "papel") {
+        } else if (state.data.contrincanteChoice == "papel") {
           pcPapelEl.style.display = "flex";
         }
         contadorComp.style.display = "none";
@@ -207,11 +212,11 @@ export class Play extends HTMLElement {
 
         manoPapelElImg.style.height = "280px";
         manoPapelElImg.style.width = "100px";
-      }, 1);
+      }, 3000);
       clearInterval(interavalidId);
       setTimeout(() => {
-        Router.go("/result");
-      }, 2500);
+        // Router.go("/result");
+      }, 4500);
       // le doy estlos y remuevo elementos si pierdo con papel
       manoPapelElImg.removeEventListener("click", removepapelclick);
       manoPapelEl.style.cursor = "default";
@@ -241,11 +246,11 @@ export class Play extends HTMLElement {
       manoTijeraEl.style.opacity = "0.4";
 
       setTimeout(() => {
-        if (state.data.currentGame.cpuPlay == "tijera") {
+        if (state.data.contrincanteChoice == "tijera") {
           pcTijeraEl.style.display = "flex";
-        } else if (state.data.currentGame.cpuPlay == "piedra") {
+        } else if (state.data.contrincanteChoice == "piedra") {
           pcPiedraEl.style.display = "flex";
-        } else if (state.data.currentGame.cpuPlay == "papel") {
+        } else if (state.data.contrincanteChoice == "papel") {
           pcPapelEl.style.display = "flex";
         }
         contadorComp.style.display = "none";
@@ -254,13 +259,13 @@ export class Play extends HTMLElement {
 
         manoPiedraElImg.style.height = "280px";
         manoPiedraElImg.style.width = "100px";
-      }, 1);
+      }, 3000);
 
       clearInterval(interavalidId);
 
       setTimeout(() => {
-        Router.go("/result");
-      }, 2500);
+        // Router.go("/result");
+      }, 4500);
 
       manoPiedraElImg.removeEventListener("click", removepiedraclick);
 

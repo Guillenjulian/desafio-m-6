@@ -42,9 +42,19 @@ app.post("/signup", function (req, res) {
           });
         });
       } else {
-        res.status(401).json({
-          message: " existis",
-        });
+        userCol
+          .where("name", "==", name)
+          .get()
+          .then((searchResponse) => {
+            res.json({
+              userId: searchResponse.docs[0].id,
+
+              new: false,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     });
 });
@@ -68,9 +78,19 @@ app.post("/signupcontrincante", function (req, res) {
             });
           });
       } else {
-        res.status(401).json({
-          message: " existis",
-        });
+        userCol
+          .where("contrincanteName", "==", contrincanteName)
+          .get()
+          .then((searchResponse) => {
+            res.json({
+              contrincanteId: searchResponse.docs[0].id,
+
+              new: false,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     });
 });
@@ -111,7 +131,7 @@ app.post("/rooms", (req, res) => {
         roomRef
           .set({
             [userId]: {
-              userID: userId,
+              userId: userId,
               name: name,
               choice: "",
               online: true,
@@ -147,9 +167,6 @@ app.post("/addplayer", (req, res) => {
 
   const { contrincanteId } = req.body;
   const { rtdbRoomId } = req.body;
-  console.log(contrincanteId, "este es el contrincante id");
-  console.log(rtdbRoomId, "este es el rtdb room id");
-  console.log(contrincanteName, "este es el contrincante name");
 
   userCol
     .doc(contrincanteId.toString())
@@ -164,7 +181,8 @@ app.post("/addplayer", (req, res) => {
           .update({
             [contrincanteId]: {
               contrincanteName: contrincanteName,
-              choice: "",
+              contrincanteId: contrincanteId,
+              contrincanteChoice: "",
               online: true,
               start: false,
             },
@@ -185,26 +203,33 @@ app.post("/addplayer", (req, res) => {
 //  crea  los games
 
 app.post("/addgames", (req, res) => {
-  const userIdOne = req.body.userIdOne;
-  const userIdTwo = req.body.userIdTwo;
-  // console.log("reques a addgames");
+  const userId = req.body.userId;
+  const name = req.body.name;
+  const contrincanteName = req.body.contrincanteName;
+  const contrincanteId = req.body.contrincanteId;
+
+  //  console.log("reques a addgames");
 
   gamesCol
-    .where("userIdOne", "==", userIdOne)
-    .where("userIdTwo", "==", userIdTwo)
+    .where("userIdOne", "==", contrincanteId)
+    .where("userIdTwo", "==", userId)
     .get()
     .then((serchRes) => {
       if (serchRes.empty) {
         gamesCol
           .add({
-            userIdOne: userIdOne,
-            userIdTwo: userIdTwo,
-            [userIdOne]: 0,
-            [userIdTwo]: 0,
+            name: name,
+            userId: userId,
+            contrincanteId: contrincanteId,
+            contrincanteName: contrincanteName,
+            choice: "",
+            contrincanteChoice: "",
           })
           .then((newGamesRef) => {
             res.json({
+              gameUserId: newGamesRef.id,
               newGamesRef: true,
+              message: "game created",
             });
           });
       } else {
@@ -214,34 +239,57 @@ app.post("/addgames", (req, res) => {
       }
     });
 });
+// Generar un  metho para unit las 2 array
 
 // cambia los estados de los user a true en la rtdb
 
 app.post("/startgame", (req, res) => {
-  const { userId } = req.body;
-  const { rtdRoomId } = req.body;
-  console.log(userId, "es el user id");
+  // console.log("reques a startgame");
+
+  const { userId, contrincanteId, rtdbRoomId } = req.body;
+  // console.log(userId, "es el user id1");
+  // console.log(contrincanteId, "es el contrincante id1");
+  // console.log(rtdbRoomId, "es el rtdb room id1");
 
   userCol
-    .doc(userId.toString())
+    .doc(userId.toString() && contrincanteId.toString())
     .get()
     .then((doc) => {
       if (doc.exists) {
-        const rommRef = rtdb.ref("rooms/" + rtdRoomId + "/" + userId);
-        rommRef
-          .update({
-            start: true,
-          })
-          .then(() => {
-            res.json({
-              message: "start game a cambiado",
-            });
-          });
+        const userRef = rtdb.ref("rooms/" + rtdbRoomId + "/" + userId);
+        const contrincanteRef = rtdb.ref(
+          "rooms/" + rtdbRoomId + "/" + contrincanteId
+        );
+
+        // Actualiza ambos nodos utilizando el método "update" de Firebase Realtime Database
+        const updates = {};
+        updates["start"] = true;
+
+        return Promise.all([
+          userRef.update(updates),
+          contrincanteRef.update(updates),
+        ]);
       } else {
         res.status(401).json({
           message: "no existis",
         });
       }
+    })
+    .then(() => {
+      res.json({
+        message: "start game a cambiado",
+        userId: userId,
+        contrincanteId: contrincanteId,
+      });
+    })
+    .catch((error) => {
+      console.error(
+        "Error al actualizar datos en Firebase Realtime Database: ",
+        error
+      );
+      res.status(500).json({
+        message: "Error al actualizar datos en Firebase Realtime Database",
+      });
     });
 });
 
@@ -250,14 +298,17 @@ app.post("/startgame", (req, res) => {
 app.post("/stopgame", (req, res) => {
   const { userId } = req.body;
   const { rtdRoomId } = req.body;
+  const { contrincanteId } = req.body;
   console.log(userId, "es el user id");
 
-  userCol
-    .doc(userId.toString())
+  gamesCol
+    .doc(userId.toString() || contrincanteId.toString())
     .get()
     .then((doc) => {
       if (doc.exists) {
-        const rommRef = rtdb.ref("rooms/" + rtdRoomId + "/" + userId);
+        const rommRef = rtdb.ref(
+          "rooms/" + rtdRoomId + "/" + userId || contrincanteId
+        );
         rommRef
           .update({
             start: false,
@@ -278,23 +329,65 @@ app.post("/stopgame", (req, res) => {
 // cambia el estado del usuario en la rtdb "choice :"piedra , papel o tijera"
 
 app.post("/choice", (req, res) => {
-  const { userId } = req.body;
-  const { rtdRoomId } = req.body;
-  const { choice } = req.body;
+  //  console.log("reques a choice");
+
+  const userId = req.body.userId;
+  const rtdbRoomId = req.body.rtdbRoomId;
+  const choice = req.body.choice;
+  const gameUserId = req.body.gameUserId;
   console.log(userId, "es el user id");
-  userCol
-    .doc(userId.toString())
+  console.log(rtdbRoomId, "es el rtdb room id");
+  console.log(choice, "es el choice");
+
+  gamesCol
+    .doc(gameUserId.toString())
     .get()
     .then((doc) => {
       if (doc.exists) {
-        const rommRef = rtdb.ref("rooms/" + rtdRoomId + "/" + userId);
-        rommRef
+        const rommRef2 = rtdb.ref("/rooms/" + rtdbRoomId + "/" + userId);
+
+        rommRef2
           .update({
             choice: choice,
           })
           .then(() => {
             res.json({
               message: "choice a cambiado",
+              choice: choice,
+            });
+          });
+      } else {
+        res.status(401).json({
+          message: "no existis",
+        });
+      }
+    });
+});
+app.post("/choicecontrincante", (req, res) => {
+  console.log("reques a choice contrincante");
+
+  const contrincanteId = req.body.contrincanteId;
+  const rtdbRoomId = req.body.rtdbRoomId;
+
+  const contrincanteChoice = req.body.contrincanteChoice;
+  const gameUserId = req.body.gameUserId;
+
+  gamesCol
+    .doc(gameUserId.toString())
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const rommRef = rtdb.ref("/rooms/" + rtdbRoomId + "/" + contrincanteId);
+
+        rommRef
+          .update({
+            contrincanteChoice: contrincanteChoice,
+          })
+
+          .then(() => {
+            res.json({
+              message: "choice a cambiado",
+              //    contrincanteChoice: contrincanteChoice,
             });
           });
       } else {
@@ -308,12 +401,12 @@ app.post("/choice", (req, res) => {
 // traigo los datos de la reques del query
 
 app.get("/rooms/:roomId", (req, res) => {
-  console.log("desbuelve la room");
+  // console.log("desbuelve la room");
 
   const { userId } = req.query;
   const { roomId } = req.params;
-  console.log({ userId }, "es el user id");
-  console.log({ roomId }, "es el room id");
+  // console.log({ userId }, "es el user id");
+  // console.log({ roomId }, "es el room id");
 
   userCol
     .doc(userId.toString())
@@ -328,7 +421,7 @@ app.get("/rooms/:roomId", (req, res) => {
               .get()
               .then((doc) => {
                 const data = doc.data();
-                console.log("data", data);
+                //  console.log("data", data);
 
                 res.json(data);
               });

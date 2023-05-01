@@ -9,12 +9,10 @@ const firebaseConfig: any = {
   apikey: process.env.API_KEY,
   authDomain: process.env.AUTH_DOMAIN,
   databaseURL: process.env.DATABASE_URL,
+  projectId: process.env.PROJECT_ID,
 };
 
 const app = firebase.initializeApp(firebaseConfig);
 const dataBase = firebase.database();
 
-// console.log(dataBase);
-// console.log(app);
-
-export { app, dataBase };
+export { dataBase };
