@@ -127,6 +127,8 @@ app.post("/rooms", (req, res) => {
     .get()
     .then((doc) => {
       if (doc.exists) {
+        console.log("si existe el user id");
+
         const roomRef = rtdb.ref("rooms/" + uuidv4());
         roomRef
           .set({
@@ -142,6 +144,7 @@ app.post("/rooms", (req, res) => {
             const roomLongId = roomRef.key;
             const roomId = uuidv4().substring(0, 6);
             roomCol
+
               .doc(roomId.toString())
               .set({
                 rtdbRoomId: roomLongId,

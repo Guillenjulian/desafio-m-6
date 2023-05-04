@@ -161,7 +161,7 @@ export class Play extends HTMLElement {
       }, 3000);
       clearInterval(interavalidId);
       setTimeout(() => {
-        // Router.go("/result");
+        Router.go("/result");
       }, 4500);
 
       manoTijeraElImg.removeEventListener("click", removetijerasclick);
@@ -215,7 +215,7 @@ export class Play extends HTMLElement {
       }, 3000);
       clearInterval(interavalidId);
       setTimeout(() => {
-        // Router.go("/result");
+        Router.go("/result");
       }, 4500);
       // le doy estlos y remuevo elementos si pierdo con papel
       manoPapelElImg.removeEventListener("click", removepapelclick);
@@ -264,7 +264,7 @@ export class Play extends HTMLElement {
       clearInterval(interavalidId);
 
       setTimeout(() => {
-        // Router.go("/result");
+        Router.go("/result");
       }, 4500);
 
       manoPiedraElImg.removeEventListener("click", removepiedraclick);

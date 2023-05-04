@@ -491,7 +491,18 @@ const state = {
     makeMove().then(() => {
       this.setState(currentState);
       makeGame().then(() => {
-        whoWins();
+        setTimeout(() => {
+          if (
+            currentState.choices !== "" &&
+            currentState.contrincanteChoice !== ""
+          ) {
+            this.setState(currentState);
+            whoWins();
+          } else {
+            this.setState(currentState);
+            Router.go("/reglas");
+          }
+        }, 1500);
       });
     });
 
@@ -521,7 +532,7 @@ const state = {
     };
   },
 
-  choicecontrincante(choice: jugada) {
+  choicecontrincante(gamePc: jugada) {
     const currentState = this.getState();
 
     fetch(API_BASE_URL + "/choicecontrincante", {
@@ -530,7 +541,7 @@ const state = {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        contrincanteChoice: choice,
+        contrincanteChoice: gamePc,
         rtdbRoomId: currentState.rtdbRoomId,
         gameUserId: currentState.gameUserId,
         contrincanteId: currentState.contrincanteId,
@@ -542,7 +553,7 @@ const state = {
       });
     this.setState(currentState);
   },
-  choiceUser(choice: jugada) {
+  choiceUser(move: jugada) {
     const currentState = this.getState();
 
     fetch(API_BASE_URL + "/choice", {
@@ -551,7 +562,7 @@ const state = {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        choice: choice,
+        choice: move,
         rtdbRoomId: currentState.rtdbRoomId,
         gameUserId: currentState.gameUserId,
         userId: currentState.userId,

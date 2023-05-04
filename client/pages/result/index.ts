@@ -44,7 +44,6 @@ export class Result extends HTMLElement {
     function handleClick() {
       const boton = div.querySelector(".boton");
       const boton1 = div.querySelector(".boton1");
-      // console.log(boton1);
 
       boton?.addEventListener("click", () => {
         Router.go("/reglas");
@@ -53,7 +52,6 @@ export class Result extends HTMLElement {
         Router.go("/");
       });
     }
-    // const startEl = div?.querySelector("my-star");
 
     div.appendChild(style);
     handleClick();

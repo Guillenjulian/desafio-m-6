@@ -5,7 +5,30 @@ export class Reglas extends HTMLElement {
   constructor() {
     super();
     const shadowRoot = this.attachShadow({ mode: "open" });
+    this.insertButton();
     this.render();
+  }
+  insertButton() {
+    state.suscribe(() => {
+      //   console.log("estado", state.getState());
+      const currentState = state.getState();
+      const boton = this.shadowRoot.querySelector(".boton") as HTMLElement;
+      const loadingBar = this.shadowRoot.querySelector(
+        ".loading"
+      ) as HTMLElement;
+      if (currentState.fromServer.length === 2) {
+        loadingBar.style.display = "none";
+        boton.style.display = "inline";
+        console.log(" entro");
+      } else {
+        boton.style.display = "none";
+        loadingBar.style.display = "inline";
+        setTimeout(() => {
+          Router.go("/");
+        }, 60000);
+        console.log("no entro");
+      }
+    });
   }
   render() {
     const div = document.createElement("div");
@@ -72,26 +95,6 @@ export class Reglas extends HTMLElement {
     
     `;
 
-    function insertButton() {
-      state.suscribe(() => {
-        //   console.log("estado", state.getState());
-        const currentState = state.getState();
-        const boton = div.querySelector(".boton") as HTMLElement;
-        const loadingBar = div.querySelector(".loading") as HTMLElement;
-        if (currentState.fromServer.length === 2) {
-          loadingBar.style.display = "none";
-          boton.style.display = "inline";
-          console.log(" entro");
-        } else {
-          boton.style.display = "none";
-          loadingBar.style.display = "inline";
-          setTimeout(() => {
-            Router.go("/");
-          }, 60000);
-          console.log("no entro");
-        }
-      });
-    }
     function handleClick() {
       const boton = div.querySelector(".boton");
       boton?.addEventListener("click", () => {
@@ -100,8 +103,9 @@ export class Reglas extends HTMLElement {
     }
 
     div.appendChild(style);
-    insertButton();
+
     handleClick();
+    this.insertButton();
     this.shadowRoot.appendChild(div);
   }
 }
