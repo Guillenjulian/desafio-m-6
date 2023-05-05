@@ -27,8 +27,8 @@ class TextResult extends HTMLElement {
     div.innerHTML = `
 
     
-    <p class = "text">  TU :${playerScore}</p>
-    <p class = "text"> PC: ${cpuScore} </p>
+    <p class = "text">  jugador :${playerScore}</p>
+    <p class = "text"> contrincate: ${cpuScore} </p>
     
     
     

@@ -1,5 +1,6 @@
 import { state } from "../../state";
 import { Router } from "@vaadin/router";
+import { Result } from "../result";
 
 export class Play extends HTMLElement {
   constructor() {
@@ -96,6 +97,11 @@ export class Play extends HTMLElement {
 
   `;
 
+    const currentState = state.getState();
+    const playRef = currentState.playHistory;
+
+    console.log(playRef);
+
     div.appendChild(style);
 
     // si pasado 5 segundos no se   hace movimiento vuelve a la pagina de reglas
@@ -160,6 +166,9 @@ export class Play extends HTMLElement {
         manoTijeraElImg.style.width = "100px";
       }, 3000);
       clearInterval(interavalidId);
+      if (currentState.choices && currentState.contrincanteChoice != "") {
+        console.log("pierdo");
+      }
       setTimeout(() => {
         Router.go("/result");
       }, 4500);
@@ -214,6 +223,9 @@ export class Play extends HTMLElement {
         manoPapelElImg.style.width = "100px";
       }, 3000);
       clearInterval(interavalidId);
+      if (currentState.choices && currentState.contrincanteChoice != "") {
+        console.log("papel");
+      }
       setTimeout(() => {
         Router.go("/result");
       }, 4500);
@@ -263,9 +275,13 @@ export class Play extends HTMLElement {
 
       clearInterval(interavalidId);
 
+      if (currentState.choices && currentState.contrincanteChoice != "") {
+        console.log("pierdo");
+      }
       setTimeout(() => {
         Router.go("/result");
       }, 4500);
+      //  Router.go("/result");
 
       manoPiedraElImg.removeEventListener("click", removepiedraclick);
 

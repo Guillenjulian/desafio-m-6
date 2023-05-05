@@ -8,6 +8,7 @@ export class Reglas extends HTMLElement {
     this.insertButton();
     this.render();
   }
+
   insertButton() {
     state.suscribe(() => {
       //   console.log("estado", state.getState());
@@ -16,7 +17,10 @@ export class Reglas extends HTMLElement {
       const loadingBar = this.shadowRoot.querySelector(
         ".loading"
       ) as HTMLElement;
-      if (currentState.fromServer.length === 2) {
+      if (
+        currentState.fromServer.length === 2 ||
+        currentState.playHistory.length === 3
+      ) {
         loadingBar.style.display = "none";
         boton.style.display = "inline";
         console.log(" entro");

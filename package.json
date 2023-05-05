@@ -21,7 +21,7 @@
     "build:front": "parcel ./client/index.html",
     "build:back": "tsc",
     "build": "yarn install && yarn build:front && yarn build:back",
-    "start": "node: ./server/main.js"
+    "start": "node: ./server/index.js"
   },
   "repository": "git@github.com:Guillenjulian/desafio-m-6.git",
   "author": "Guillen Julian <guillen.julian1985@gmail.com>",
