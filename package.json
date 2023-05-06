@@ -19,9 +19,9 @@
     "dev:front": "parcel ./client/index.html",
     "dev:back": "nodemon --watch './server/index.ts' --exec 'ts-node server/dev.ts'",
     "build:front": "parcel ./client/index.html",
-    "build:back": "tsc",
+    "build:back": "tsc ./server/index.ts ./server/index.js",
     "build": "yarn install && yarn build:front && yarn build:back",
-    "start": "node: ./server/index.js"
+    "start": "node ./server/index.js"
   },
   "repository": "git@github.com:Guillenjulian/desafio-m-6.git",
   "author": "Guillen Julian <guillen.julian1985@gmail.com>",
