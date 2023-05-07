@@ -18,8 +18,8 @@
   "scripts": {
     "dev:front": "parcel ./client/index.html",
     "dev:back": "nodemon --watch './server/index.ts' --exec 'ts-node server/dev.ts'",
-    "build:front": "parcel ./client/index.html",
-    "build:back": "tsc ./server/index.ts ./server/index.js",
+    "build:front": " npx parcel build ./client/index.html",
+    "build:back": "tsc ",
     "build": "yarn install && yarn build:front && yarn build:back",
     "start": "node ./server/index.js"
   },

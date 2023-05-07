@@ -225,8 +225,8 @@ app.post("/addgames", (req, res) => {
             userId: userId,
             contrincanteId: contrincanteId,
             contrincanteName: contrincanteName,
-            choice: "",
-            contrincanteChoice: "",
+            userPonits: "",
+            contrincantePonits: "",
           })
           .then((newGamesRef) => {
             res.json({

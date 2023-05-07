@@ -46,7 +46,7 @@ export class Result extends HTMLElement {
       const boton1 = div.querySelector(".boton1");
 
       boton?.addEventListener("click", () => {
-        Router.go("/reglas");
+        Router.go("/play");
       });
       boton1?.addEventListener("click", () => {
         Router.go("/");

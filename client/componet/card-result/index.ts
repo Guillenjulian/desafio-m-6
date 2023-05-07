@@ -8,7 +8,7 @@ class Star extends HTMLElement {
   render() {
     const div = document.createElement("div");
     const currentState = state.getState();
-    console.log(currentState, "state");
+    // console.log(currentState, "state");
 
     const resultEL = currentState.playHistory.result;
     // console.log(resultEL, "result");

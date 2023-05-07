@@ -500,7 +500,6 @@ const state = {
             whoWins();
           } else {
             this.setState(currentState);
-            Router.go("/reglas");
           }
         }, 1500);
       });
@@ -546,11 +545,8 @@ const state = {
         gameUserId: currentState.gameUserId,
         contrincanteId: currentState.contrincanteId,
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        //  console.log(data, "se cargo el contrincante");
-      });
+    }).then((res) => res.json());
+
     this.setState(currentState);
   },
   choiceUser(move: jugada) {
@@ -567,8 +563,6 @@ const state = {
         gameUserId: currentState.gameUserId,
         userId: currentState.userId,
       }),
-    }).then((data) => {
-      //console.log(data, "se cargo el contrincante");
     });
     this.setState(currentState);
   },
@@ -577,8 +571,8 @@ const state = {
     const currentState = this.getState();
     const userPlay = move;
     const cpuPlay = gamePc;
-    console.log(userPlay, "este es el userPlay");
-    console.log(cpuPlay, "este es el cpuPlay");
+    // console.log(userPlay, "este es el userPlay");
+    // console.log(cpuPlay, "este es el cpuPlay");
 
     const jugadaGanada = [
       userPlay == "piedra" && cpuPlay == "tijera",

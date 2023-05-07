@@ -10,13 +10,9 @@ class Button extends HTMLElement {
     const value = this.getAttribute("value") || "Click me";
 
     div.innerHTML = `
-      
-         
-            <button  class="button" 
-             >${value}</button>
 
-            
-           `;
+        <button  class="button">${value}         </button>
+        `;
     style.innerHTML = `
             
             .conteiner{

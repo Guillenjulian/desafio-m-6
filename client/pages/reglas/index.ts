@@ -5,35 +5,9 @@ export class Reglas extends HTMLElement {
   constructor() {
     super();
     const shadowRoot = this.attachShadow({ mode: "open" });
-    this.insertButton();
     this.render();
   }
 
-  insertButton() {
-    state.suscribe(() => {
-      //   console.log("estado", state.getState());
-      const currentState = state.getState();
-      const boton = this.shadowRoot.querySelector(".boton") as HTMLElement;
-      const loadingBar = this.shadowRoot.querySelector(
-        ".loading"
-      ) as HTMLElement;
-      if (
-        currentState.fromServer.length === 2 ||
-        currentState.playHistory.length === 3
-      ) {
-        loadingBar.style.display = "none";
-        boton.style.display = "inline";
-        console.log(" entro");
-      } else {
-        boton.style.display = "none";
-        loadingBar.style.display = "inline";
-        setTimeout(() => {
-          Router.go("/");
-        }, 60000);
-        console.log("no entro");
-      }
-    });
-  }
   render() {
     const div = document.createElement("div");
     const style = document.createElement("style");
@@ -42,7 +16,9 @@ export class Reglas extends HTMLElement {
 
     <my-headers class="header" ></my-headers>
     <my-rules></my-rules>
+  
     <my-loading class ="loading"></my-loading>
+  
     <my-button class = "boton" value ="Jugar"></my-button>
     <div class = "manos">
     <mano-papel  class = "mano"></mano-papel>
@@ -102,14 +78,36 @@ export class Reglas extends HTMLElement {
     function handleClick() {
       const boton = div.querySelector(".boton");
       boton?.addEventListener("click", () => {
+        console.log("este es el boton", boton);
+
         state.stateStartInTrue();
+      });
+    }
+    function insertButton() {
+      state.suscribe(() => {
+        // console.log("estado", state.getState());
+        const currentState = state.getState();
+        const boton = div.querySelector(".boton") as HTMLElement;
+        const loadingBar = div.querySelector(".loading") as HTMLElement;
+        if (currentState.fromServer.length === 2) {
+          loadingBar.style.display = "none";
+          boton.style.display = "inline";
+          console.log(" entro");
+        } else {
+          boton.style.display = "none";
+          loadingBar.style.display = "inline";
+          // setTimeout(() => {
+          //   Router.go("/");
+          // }, 60000);
+          console.log("no entro");
+        }
       });
     }
 
     div.appendChild(style);
 
     handleClick();
-    this.insertButton();
+    insertButton();
     this.shadowRoot.appendChild(div);
   }
 }

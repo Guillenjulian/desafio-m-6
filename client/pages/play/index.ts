@@ -99,19 +99,26 @@ export class Play extends HTMLElement {
 
     const currentState = state.getState();
     const playRef = currentState.playHistory;
+    // console.log(currentState.contrincanteChoice);
+    // console.log(currentState.choices);
 
-    console.log(playRef);
+    // console.log(playRef);
 
     div.appendChild(style);
 
-    // si pasado 5 segundos no se   hace movimiento vuelve a la pagina de reglas
+    // si pasado 10 segundos no se   hace movimiento vuelve a la pagina de reglas
 
-    let counter = 5;
+    let counter = 10;
 
     const interavalidId = setInterval(() => {
       counter--;
-      if (counter < 1) {
+      if (counter < 0) {
         clearInterval(interavalidId);
+        console.log("termino el contador");
+        alert("tu oponete no selecciono");
+        setTimeout(() => {
+          Router.go("/");
+        }, 5000);
       }
     }, 1000);
 
@@ -145,33 +152,34 @@ export class Play extends HTMLElement {
     //
     const removetijerasclick = () => {
       state.setMove("tijera");
+      console.log("tijera seleccionada");
+
       manoTijeraElImg.style.objectPosition = "0px 43px";
       manoTijeraElImg.style.transition = "all 0.5s ease-out";
 
       manoPiedraEl.style.opacity = "0.4";
       manoPapelEl.style.opacity = "0.4";
-      setTimeout(() => {
-        if (state.data.contrincanteChoice == "tijera") {
-          pcTijeraEl.style.display = "flex";
-        } else if (state.data.contrincanteChoice == "piedra") {
-          pcPiedraEl.style.display = "flex";
-        } else if (state.data.contrincanteChoice == "papel") {
-          pcPapelEl.style.display = "flex";
-        }
-        contadorComp.style.display = "none";
-        manoPiedraEl.style.display = "none";
-        manoPapelEl.style.display = "none";
 
-        manoTijeraElImg.style.height = "280px";
-        manoTijeraElImg.style.width = "100px";
-      }, 3000);
+      // setTimeout(() => {
+      //   if (state.data.contrincanteChoice == "tijera") {
+      //     pcTijeraEl.style.display = "flex";
+      //   } else if (state.data.contrincanteChoice == "piedra") {
+      //     pcPiedraEl.style.display = "flex";
+      //   } else if (state.data.contrincanteChoice == "papel") {
+      //     pcPapelEl.style.display = "flex";
+      //   }
+      //   contadorComp.style.display = "none";
+      //   manoPiedraEl.style.display = "none";
+      //   manoPapelEl.style.display = "none";
+
+      //   manoTijeraElImg.style.height = "280px";
+      //   manoTijeraElImg.style.width = "100px";
+      // }, 3000);
       clearInterval(interavalidId);
-      if (currentState.choices && currentState.contrincanteChoice != "") {
-        console.log("pierdo");
-      }
+
       setTimeout(() => {
         Router.go("/result");
-      }, 4500);
+      }, 5000);
 
       manoTijeraElImg.removeEventListener("click", removetijerasclick);
       manoTijeraEl.style.cursor = "default";
@@ -200,6 +208,7 @@ export class Play extends HTMLElement {
     // estilos de componentes de mano --papel
     const removepapelclick = () => {
       state.setMove("papel");
+      console.log("papel selecionado");
 
       manoPapelElImg.style.objectPosition = "0px 43px";
       manoPapelElImg.style.transition = "all 0.5s ease-out";
@@ -207,28 +216,26 @@ export class Play extends HTMLElement {
       manoPiedraEl.style.opacity = "0.4";
       manoTijeraEl.style.opacity = "0.4";
 
-      setTimeout(() => {
-        if (state.data.choices == "tijera") {
-          pcTijeraEl.style.display = "flex";
-        } else if (state.data.contrincanteChoice == "piedra") {
-          pcPiedraEl.style.display = "flex";
-        } else if (state.data.contrincanteChoice == "papel") {
-          pcPapelEl.style.display = "flex";
-        }
-        contadorComp.style.display = "none";
-        manoPiedraEl.style.display = "none";
-        manoTijeraEl.style.display = "none";
+      // setTimeout(() => {
+      //   if (state.data.choices == "tijera") {
+      //     pcTijeraEl.style.display = "flex";
+      //   } else if (state.data.contrincanteChoice == "piedra") {
+      //     pcPiedraEl.style.display = "flex";
+      //   } else if (state.data.contrincanteChoice == "papel") {
+      //     pcPapelEl.style.display = "flex";
+      //   }
+      //   contadorComp.style.display = "none";
+      //   manoPiedraEl.style.display = "none";
+      //   manoTijeraEl.style.display = "none";
 
-        manoPapelElImg.style.height = "280px";
-        manoPapelElImg.style.width = "100px";
-      }, 3000);
+      //   manoPapelElImg.style.height = "280px";
+      //   manoPapelElImg.style.width = "100px";
+      // }, 3000);
       clearInterval(interavalidId);
-      if (currentState.choices && currentState.contrincanteChoice != "") {
-        console.log("papel");
-      }
+
       setTimeout(() => {
         Router.go("/result");
-      }, 4500);
+      }, 5000);
       // le doy estlos y remuevo elementos si pierdo con papel
       manoPapelElImg.removeEventListener("click", removepapelclick);
       manoPapelEl.style.cursor = "default";
@@ -251,37 +258,34 @@ export class Play extends HTMLElement {
     //
     const removepiedraclick = () => {
       state.setMove("piedra");
+      console.log("piedra selecionado");
       manoPiedraElImg.style.objectPosition = "0px 43px";
       manoPiedraElImg.style.transition = "all 0.5s ease-out";
 
       manoPapelEl.style.opacity = "0.4";
       manoTijeraEl.style.opacity = "0.4";
 
-      setTimeout(() => {
-        if (state.data.contrincanteChoice == "tijera") {
-          pcTijeraEl.style.display = "flex";
-        } else if (state.data.contrincanteChoice == "piedra") {
-          pcPiedraEl.style.display = "flex";
-        } else if (state.data.contrincanteChoice == "papel") {
-          pcPapelEl.style.display = "flex";
-        }
-        contadorComp.style.display = "none";
-        manoPapelEl.style.display = "none";
-        manoTijeraEl.style.display = "none";
+      // setTimeout(() => {
+      //   if (state.data.contrincanteChoice == "tijera") {
+      //     pcTijeraEl.style.display = "flex";
+      //   } else if (state.data.contrincanteChoice == "piedra") {
+      //     pcPiedraEl.style.display = "flex";
+      //   } else if (state.data.contrincanteChoice == "papel") {
+      //     pcPapelEl.style.display = "flex";
+      //   }
+      //   contadorComp.style.display = "none";
+      //   manoPapelEl.style.display = "none";
+      //   manoTijeraEl.style.display = "none";
 
-        manoPiedraElImg.style.height = "280px";
-        manoPiedraElImg.style.width = "100px";
-      }, 3000);
+      //   manoPiedraElImg.style.height = "280px";
+      //   manoPiedraElImg.style.width = "100px";
+      // }, 3000);
 
       clearInterval(interavalidId);
 
-      if (currentState.choices && currentState.contrincanteChoice != "") {
-        console.log("pierdo");
-      }
       setTimeout(() => {
         Router.go("/result");
-      }, 4500);
-      //  Router.go("/result");
+      }, 5000);
 
       manoPiedraElImg.removeEventListener("click", removepiedraclick);
 

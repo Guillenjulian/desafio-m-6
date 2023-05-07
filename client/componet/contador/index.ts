@@ -56,13 +56,13 @@ class Contador extends HTMLElement {
      
         
             `;
-    let counter = 5;
+    let counter = 10;
     const contadorNumerEL = div.querySelector(".contador__number") as any;
     contadorNumerEL.textContent = counter;
     const interval = setInterval(() => {
       counter--;
       contadorNumerEL.textContent = counter;
-      if (counter < 3) {
+      if (counter < 0) {
         clearInterval(interval);
       }
     }, 1000);
