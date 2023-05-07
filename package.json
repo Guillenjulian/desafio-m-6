@@ -1,7 +1,6 @@
 {
   "name": "desafio-m-6",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "@types/firebase": "^3.2.1",
@@ -18,9 +17,9 @@
   "scripts": {
     "dev:front": "parcel ./client/index.html",
     "dev:back": "nodemon --watch './server/index.ts' --exec 'ts-node server/dev.ts'",
-    "build:front": " npx parcel build ./client/index.html",
-    "build:back": "tsc ",
-    "build": "yarn install && yarn build:front && yarn build:back",
+    "build:front": "npx parcel build ./client/index.html",
+    "build:back": "tsc",
+    "build": "yarn install  && yarn build:back && yarn build:front",
     "start": "node ./server/index.js"
   },
   "repository": "git@github.com:Guillenjulian/desafio-m-6.git",
