@@ -366,6 +366,7 @@ app.post("/choice", (req, res) => {
       }
     });
 });
+
 app.post("/choicecontrincante", (req, res) => {
   console.log("reques a choice contrincante");
 
