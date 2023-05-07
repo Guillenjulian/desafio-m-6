@@ -3,7 +3,7 @@ import { db, rtdb } from "./db";
 import cors from "cors";
 import { uuidv4 } from "@firebase/util";
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3005;
 const app = express();
 
 //console.log("variables de entorno", process.env);
@@ -13,7 +13,7 @@ app.use(cors());
 
 ///manejar las rutas q no estan declaradas
 app.use(express.static("./dist"));
-const ROOT_PATH = __dirname.replace("server/index", "");
+const ROOT_PATH = __dirname.replace("./server/index", "");
 
 //expongo el puerto
 app.listen(port, () => {
