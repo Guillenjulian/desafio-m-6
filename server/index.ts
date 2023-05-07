@@ -1,4 +1,4 @@
-import * as express from "express";
+import express from "express";
 import { db, rtdb } from "./db";
 import * as cors from "cors";
 import { uuidv4 } from "@firebase/util";
