@@ -1,6 +1,6 @@
 import express from "express";
 import { db, rtdb } from "./db";
-import * as cors from "cors";
+import cors from "cors";
 import { uuidv4 } from "@firebase/util";
 
 const port = 3005 || process.env.PORT;
