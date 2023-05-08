@@ -3,11 +3,8 @@ import { Router } from "@vaadin/router";
 import { dataBase } from "./database";
 import { map } from "lodash";
 
-const NODE_ENV: "dev" | "prod" = process.env.NODE_ENV || ("dev" as any);
 const API_BASE_URL: string =
-  NODE_ENV === "prod"
-    ? process.env.API_BASE_URL_PROD || "http://localhost:3005"
-    : "http://localhost:3005";
+  process.env.API_BASE_URL_PROD || "http://localhost:3005";
 
 type jugada = "piedra" | "papel" | "tijera";
 const state = {
