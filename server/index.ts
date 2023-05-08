@@ -3,7 +3,7 @@ import { db, rtdb } from "./db";
 import cors from "cors";
 import { uuidv4 } from "@firebase/util";
 
-const port = process.env.PORT || 3005;
+const port = process.env.API_BASE_URL || "http://localhost:3005";
 const app = express();
 
 //console.log("variables de entorno", process.env);
