@@ -2,8 +2,7 @@ import { Router } from "@vaadin/router";
 
 import { dataBase } from "./database";
 import { map } from "lodash";
-import { listeners } from "process";
-import { Result } from "./pages/result";
+
 const NODE_ENV: "dev" | "prod" = process.env.NODE_ENV || ("dev" as any);
 const API_BASE_URL: string =
   NODE_ENV === "prod"
