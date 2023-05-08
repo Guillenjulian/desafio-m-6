@@ -4,7 +4,7 @@ import cors from "cors";
 import { uuidv4 } from "@firebase/util";
 const NODE_ENV: "dev" | "prod" = process.env.NODE_ENV || ("dev" as any);
 
-const port = "piedra-papel-o-tijera.onrender.com";
+const port = 3005;
 const app = express();
 
 //console.log("variables de entorno", process.env);

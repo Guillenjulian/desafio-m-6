@@ -3,8 +3,7 @@ import { Router } from "@vaadin/router";
 import { dataBase } from "./database";
 import { map } from "lodash";
 
-const API_BASE_URL: string =
-  process.env.API_BASE_URL || "http://localhost:3005";
+const API_BASE_URL: string = "http://localhost:3005";
 
 type jugada = "piedra" | "papel" | "tijera";
 const state = {
