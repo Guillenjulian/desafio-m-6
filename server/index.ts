@@ -2,8 +2,12 @@ import express from "express";
 import { db, rtdb } from "./db";
 import cors from "cors";
 import { uuidv4 } from "@firebase/util";
+const NODE_ENV: "dev" | "prod" = process.env.NODE_ENV || ("dev" as any);
 
-const port = process.env.API_BASE_URL || "http://localhost:3005";
+const port =
+  NODE_ENV === "prod"
+    ? process.env.API_BASE_URL_PROD || "http://localhost:3005"
+    : "http://localhost:3005";
 const app = express();
 
 //console.log("variables de entorno", process.env);
