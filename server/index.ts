@@ -6,7 +6,7 @@ const NODE_ENV: "dev" | "prod" = process.env.NODE_ENV || ("dev" as any);
 
 const port =
   NODE_ENV === "prod"
-    ? process.env.API_BASE_URL_PROD || "http://localhost:3005"
+    ? process.env.PORT || "http://localhost:3005"
     : "http://localhost:3005";
 const app = express();
 
