@@ -4,7 +4,7 @@ import cors from "cors";
 import { uuidv4 } from "@firebase/util";
 const NODE_ENV: "dev" | "prod" = process.env.NODE_ENV || ("dev" as any);
 
-const port = 3005 || process.env.PORT;
+const port = 3005;
 const app = express();
 
 //console.log("variables de entorno", process.env);
@@ -17,8 +17,14 @@ app.use(express.static("./dist"));
 const ROOT_PATH = __dirname.replace("./server/index", "");
 
 //expongo el puerto
+// app.listen(port, () => {
+//   console.log(`Example app listening at http://localhost:${port}`);
+// });
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`
+   ::::::Server corriendo:::::
+     ENTORNO EN: ${process.env.PORT}
+   el el puerto http://localhost:${port}`);
 });
 
 const userCol = db.collection("users");
