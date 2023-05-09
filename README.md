@@ -4,7 +4,7 @@
 
 ## Enlaces
 
-- [Documentación de Postman](https://www.postman.com/restless-robot-315608/workspace/piedra-papel-tijera/request/21887353-0fa9e3e2-3e74-4213-83c4-4fa2ea99794e?ctx=documentation)
+- [Documentación de Postman](https://documenter.getpostman.com/view/25881912/2s93XsWkht)
 - [Juego en Vercel](https://desafio-m-6-cz0c3tzmx-guillenjulian.vercel.app/)
 - [Juego en Render](https://piedra-papel-o-tijera.onrender.com/)
 
