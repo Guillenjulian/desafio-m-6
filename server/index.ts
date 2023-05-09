@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 ///manejar las rutas q no estan declaradas
-app.use(express.static("./dist"));
+app.use(express.static("dist"));
 const ROOT_PATH = __dirname.replace("./server/index", "");
 
 //expongo el puerto
