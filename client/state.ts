@@ -3,7 +3,8 @@ import { Router } from "@vaadin/router";
 import { dataBase } from "./database";
 import { map } from "lodash";
 
-const API_BASE_URL: string = "http://localhost:3005";
+const API_BASE_URL: string =
+  "http://localhost:3005" || "https://piedra-papel-o-tijera.onrender.com";
 
 type jugada = "piedra" | "papel" | "tijera";
 const state = {

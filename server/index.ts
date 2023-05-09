@@ -4,7 +4,7 @@ import cors from "cors";
 import { uuidv4 } from "@firebase/util";
 const NODE_ENV: "dev" | "prod" = process.env.NODE_ENV || ("dev" as any);
 
-const port = 3005;
+const port = 3005 || process.env.PORT;
 const app = express();
 
 //console.log("variables de entorno", process.env);
