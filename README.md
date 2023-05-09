@@ -5,7 +5,7 @@
 ## Enlaces
 
 - [Documentación de Postman](https://documenter.getpostman.com/view/25881912/2s93XsWkht)
-- [Juego en Vercel](https://desafio-m-6-cz0c3tzmx-guillenjulian.vercel.app/)
+
 - [Juego en Render](https://piedra-papel-o-tijera.onrender.com/)
 
 ## Dependencias
